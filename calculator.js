@@ -268,4 +268,14 @@ window.onload = function () {
 
         operand.set(0);
     });
+
+    document.getElementById('square-root-btn').addEventListener('click', function () {
+        let operand = chooseOperand();
+        if (!operand) {
+            return;
+        }
+
+        let value = Math.sqrt(Number(operand.value));
+        operand.set(value);
+    });
 }
