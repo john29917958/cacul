@@ -278,4 +278,30 @@ window.onload = function () {
         let value = Math.sqrt(Number(operand.value));
         operand.set(value);
     });
+
+    document.getElementById('delete-btn').addEventListener('click', function () {
+        if (operand2.isSet) {
+            if (operand2.value.length === 1) {
+                operand2.unset();
+            } else {
+                operand2.set(operand2.value.substr(0, operand2.value.length - 1));
+                if (operand2.value === '+' || operand2.value === '-') {
+                    operand2.unset();
+                }
+            }
+        } else if (operator.isSet) {
+            operator.unset();
+        } else if (operand1.isSet) {
+            if (operand1.value.length === 1) {
+                operand1.set(0);
+            } else {
+                operand1.set(operand1.value.substr(0, operand1.value.length - 1));
+                if (operand1.value === '+' || operand1.value === '-') {
+                    operand1.set(0);
+                }
+            }
+        } else {
+            // No digit to delete.
+        }
+    });
 }
