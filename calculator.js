@@ -249,4 +249,14 @@ window.onload = function () {
         }
         operand.set(number);
     });
+
+    document.getElementById('reciprocal-btn').addEventListener('click', function () {
+        let operand = chooseOperand();
+        if (!operand) {
+            return;
+        }
+
+        let value = 1 / Number(operand.value);
+        operand.set(value);
+    });
 }
