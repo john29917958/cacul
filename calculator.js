@@ -1,6 +1,57 @@
 'use strict';
 
+
+
 window.onload = function () {
+    function Operand() {
+        this._value = null;
+    }
+
+    Operand.prototype.isSet = function () {
+        return this._value != null;
+    }
+
+    Operand.prototype.set = function (value) {
+        value = value.toString();
+        this._value = value;
+        this.elem.textContent = value;
+    };
+
+    Operand.prototype.toFloat = function () {
+        if (this.isSet && this.value.includes('.')) {
+            return;
+        }
+
+        if (this.isSet) {
+            this.value += '.';
+        } else {
+            this.value = '0.';
+        }
+
+        this.elem.textContent = this.value;
+    };
+
+    Operand.prototype.unset = function () {
+        this.value = null;
+        this.elem.textContent = '';
+    };
+
+    Operand.prototype.render = function () {
+        let elem = document.createElement('span');
+        this._elem = elem;
+        return elem;
+    };
+
+    Operand.prototype.append = function (value) {
+        value = value.toString();
+        if (!this.isSet || this.value === '0') {
+            this.value = value;
+        } else {
+            this.value += value;
+        }
+        this.elem.textContent = this.value;
+    };
+
     let operand1 = {
         elem: document.getElementById('operand-1'),
         value: null,
@@ -150,11 +201,45 @@ window.onload = function () {
         }
     });
 
-    document.getElementById('dot-btn').addEventListener('click', function (e) {
+    document.getElementById('dot-btn').addEventListener('click', function () {
         if (operator.isSet) {
             operand2.toFloat();
         } else {
             operand1.toFloat();
         }
+    });
+
+    document.getElementById('plus-minus-btn').addEventListener('click', function () {
+        if (operand2.isSet) {
+            let value = (-Number(operand2.value)).toString();
+            operand2.set(value);
+        } else if (operand1.isSet) {
+            let value = (-Number(operand1.value)).toString();
+            operand1.set(value);
+        }
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', function () {
+        operand1.set(0);
+        operator.unset();
+        operand2.unset();
+    });
+
+    document.getElementById('square-btn').addEventListener('click', function () {
+        let operand;
+        if (operand2.isSet) {
+            operand = operand2;
+        } else if (operand1.isSet) {
+            operand = operand1;
+        } else {
+            return;
+        }
+
+        let number = Math.pow(Number(operand.value), 2);
+        if (operand.value.includes('.')) {
+            let fractionalPartDigits = operand.value.split('.')[1].length * 2;
+            number = number.toFixed(fractionalPartDigits);
+        }
+        operand.set(number);
     });
 }

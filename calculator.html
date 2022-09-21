@@ -1,3 +1,4 @@
+<!-- in progress -->
 <!DOCTYPE html>
 <html>
 
@@ -26,6 +27,50 @@
         </div>
         <div class="row" style="margin-bottom: 8px;">
             <div class="col s3 grid">
+                <a class="waves-effect waves-light btn pink darken-2" id="mod-btn" disabled>
+                    %
+                </a>
+            </div>
+            <div class="col s3 grid">
+                <button class="waves-effect waves-light btn pink darken-2" id="cancel-btn" disabled>
+                    CE
+                </button>
+            </div>
+            <div class="col s3 grid">
+                <button class="waves-effect waves-light btn pink darken-2" id="clear-btn">
+                    C
+                </button>
+            </div>
+            <div class="col s3 grid">
+                <button class="waves-effect waves-light btn pink darken-2" id="delete-btn" disabled>
+                    <i class="fa-solid fa-delete-left"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 8px;">
+            <div class="col s3 grid">
+                <button class="waves-effect waves-light btn pink darken-2" id="reciprocal-btn" disabled>
+                    1/x
+                </button>
+            </div>
+            <div class="col s3 grid">
+                <button class="waves-effect waves-light btn pink darken-2" id="square-btn">
+                    x<sup>2</sup>
+                </button>
+            </div>
+            <div class="col s3 grid">
+                <button class="waves-effect waves-light btn pink darken-2" id="square-root-btn" disabled>
+                    <i class="fa-solid fa-square-root-variable"></i>
+                </button>
+            </div>
+            <div class="col s3 grid">
+                <button class="waves-effect waves-light btn pink darken-2 operator-btn" data-op="/">
+                    <i class="fa-solid fa-divide"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 8px;">
+            <div class="col s3 grid">
                 <button class="waves-effect waves-light btn pink darken-2 num-btn">
                     7
                 </button>
@@ -41,8 +86,8 @@
                 </button>
             </div>
             <div class="col s3 grid">
-                <button class="waves-effect waves-light btn pink darken-2 operator-btn" data-op="/">
-                    <i class="fa-solid fa-divide"></i>
+                <button class="waves-effect waves-light btn pink darken-2 operator-btn" data-op="*">
+                    <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
         </div>
@@ -63,8 +108,8 @@
                 </button>
             </div>
             <div class="col s3 grid">
-                <button class="waves-effect waves-light btn pink darken-2 operator-btn" data-op="*">
-                    <i class="fa-solid fa-xmark"></i>
+                <button class="waves-effect waves-light btn pink darken-2 operator-btn" data-op="-">
+                    <i class="fa-solid fa-minus"></i>
                 </button>
             </div>
         </div>
@@ -85,12 +130,17 @@
                 </button>
             </div>
             <div class="col s3 grid">
-                <button class="waves-effect waves-light btn pink darken-2 operator-btn" data-op="-">
-                    <i class="fa-solid fa-minus"></i>
+                <button class="waves-effect waves-light btn pink darken-2 operator-btn" data-op="+">
+                    <i class="fa-solid fa-plus"></i>
                 </button>
             </div>
         </div>
         <div class="row" style="margin-bottom: 8px;">
+            <div class="col s3 grid">
+                <button class="waves-effect waves-light btn pink darken-2" id="plus-minus-btn">
+                    +/-
+                </button>
+            </div>
             <div class="col s3 grid">
                 <button class="waves-effect waves-light btn pink darken-2 num-btn">
                     0
@@ -106,12 +156,8 @@
                     <i class="fa-solid fa-equals center-align"></i>
                 </button>
             </div>
-            <div class="col s3 grid">
-                <button class="waves-effect waves-light btn pink darken-2 operator-btn" data-op="+">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-            </div>
         </div>
+        <span class="white-text">ver 0.1</span>        
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
