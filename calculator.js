@@ -201,6 +201,12 @@ window.onload = function () {
         }
     });
 
+    document.getElementById('clear-btn').addEventListener('click', function () {
+        operand1.set(0);
+        operator.unset();
+        operand2.unset();
+    });
+
     document.getElementById('dot-btn').addEventListener('click', function () {
         if (operator.isSet) {
             operand2.toFloat();
@@ -209,29 +215,30 @@ window.onload = function () {
         }
     });
 
-    document.getElementById('plus-minus-btn').addEventListener('click', function () {
+    function chooseOperand() {
         if (operand2.isSet) {
-            let value = (-Number(operand2.value)).toString();
-            operand2.set(value);
+            return operand2;
         } else if (operand1.isSet) {
-            let value = (-Number(operand1.value)).toString();
-            operand1.set(value);
+            return operand1;
+        } else {
+            return null;
         }
+    }
+
+    document.getElementById('plus-minus-btn').addEventListener('click', function () {
+        let operand = chooseOperand();
+        if (!operand) {
+            return;
+        }
+
+        let value = (-Number(operand.value)).toString();
+        operand.set(value);
     });
 
-    document.getElementById('clear-btn').addEventListener('click', function () {
-        operand1.set(0);
-        operator.unset();
-        operand2.unset();
-    });
 
     document.getElementById('square-btn').addEventListener('click', function () {
-        let operand;
-        if (operand2.isSet) {
-            operand = operand2;
-        } else if (operand1.isSet) {
-            operand = operand1;
-        } else {
+        let operand = chooseOperand();
+        if (!operand) {
             return;
         }
 
