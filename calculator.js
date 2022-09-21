@@ -201,7 +201,7 @@ window.onload = function () {
         }
     });
 
-    document.getElementById('clear-btn').addEventListener('click', function () {
+    document.getElementById('global-clear-btn').addEventListener('click', function () {
         operand1.set(0);
         operator.unset();
         operand2.unset();
@@ -258,5 +258,14 @@ window.onload = function () {
 
         let value = 1 / Number(operand.value);
         operand.set(value);
+    });
+
+    document.getElementById('clear-entry-btn').addEventListener('click', function () {
+        let operand = chooseOperand();
+        if (!operand) {
+            return;
+        }
+
+        operand.set(0);
     });
 }
