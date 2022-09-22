@@ -308,4 +308,14 @@ window.onload = function () {
             // No digit to delete.
         }
     });
+
+    document.getElementById('percentage-btn').addEventListener('click', function () {
+        let operand = chooseOperand();
+        if (!operand) {
+            return;
+        }
+
+        let value = operand.value * 0.01;
+        operand.set(value);
+    });
 }
