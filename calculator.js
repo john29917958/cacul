@@ -243,11 +243,15 @@ window.onload = function () {
         }
 
         let number = Math.pow(Number(operand.value), 2);
-        if (operand.value.includes('.')) {
+        if (number.toString() === '0') {
+            operand.set(0);            
+        } else if (!number.toString().includes('e') && operand.value.includes('.')) {            
             let fractionalPartDigits = operand.value.split('.')[1].length * 2;
             number = number.toFixed(fractionalPartDigits);
+            operand.set(number);
+        } else {
+            operand.set(number);
         }
-        operand.set(number);
     });
 
     document.getElementById('reciprocal-btn').addEventListener('click', function () {
