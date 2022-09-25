@@ -247,7 +247,9 @@ window.onload = function () {
             operand.set(0);            
         } else if (!number.toString().includes('e') && operand.value.includes('.')) {            
             let fractionalPartDigits = operand.value.split('.')[1].length * 2;
-            number = number.toFixed(fractionalPartDigits);
+            if (fractionalPartDigits <= 100) {
+                number = number.toFixed(fractionalPartDigits);
+            }
             operand.set(number);
         } else {
             operand.set(number);
