@@ -246,12 +246,12 @@ window.onload = function () {
         if (number.toString() === '0') {
             operand.set(0);
         } else if (!number.toString().includes('e') && operand.value.includes('.')) {
-            let fractionalPartDigits = operand.value.split('.')[1].length * 2;
-            if (fractionalPartDigits > 100) {
-                fractionalPartDigits = 100;
-            }
-            number = Number(number.toFixed(fractionalPartDigits));
-            operand.set(number);
+            let fracDigits = operand.value.split('.')[1].length;
+            let shiftValue = Math.pow(10, fracDigits);
+            let num = Number(operand.value) * shiftValue;
+            num = num * num;
+            num = num / Math.pow(shiftValue, 2);
+            operand.set(num);
         } else {
             operand.set(number);
         }
