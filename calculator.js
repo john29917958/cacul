@@ -242,19 +242,11 @@ window.onload = function () {
             return;
         }
 
-        let number = Math.pow(Number(operand.value), 2);
-        if (number.toString() === '0') {
-            operand.set(0);
-        } else if (!number.toString().includes('e') && operand.value.includes('.')) {
-            let fracDigits = operand.value.split('.')[1].length;
-            let shiftValue = Math.pow(10, fracDigits);
-            let num = Number(operand.value) * shiftValue;
-            num = num * num;
-            num = num / Math.pow(shiftValue, 2);
-            operand.set(num);
-        } else {
-            operand.set(number);
-        }
+        let bigDec = new bigDecimal(operand.value);
+        bigDec = bigDec.multiply(bigDec);
+        let numStr = bigDec.getValue();
+        let number = Number(numStr);
+        operand.set(number);
     });
 
     document.getElementById('reciprocal-btn').addEventListener('click', function () {
@@ -318,7 +310,22 @@ window.onload = function () {
             return;
         }
 
-        let value = operand.value * 0.01;
-        operand.set(value);
+        let numStr;
+        if (operand.value.includes('e-')) {
+            let tokens = operand.value.split('e-');
+            tokens[1] = (Number(tokens[1]) + 2).toString();
+            numStr = tokens[0] + 'e-' + tokens[1];
+            if (Number(numStr).toString() === '0') {
+                operand.set(0);
+            } else {
+                operand.set(numStr);
+            }
+        } else {
+            let bidDec = new bigDecimal(operand.value);
+            bidDec = bidDec.multiply(new bigDecimal('0.01'));
+            let numStr = bidDec.getValue();
+            let number = Number(numStr);
+            operand.set(number);
+        }
     });
 }
