@@ -331,9 +331,15 @@ window.onload = function () {
             str += operand2Val;
         }
         navigator.clipboard.writeText(str).then(function () {
-            M.toast({ html: 'Copied to clipboard!' });
+            M.toast({
+                html: 'Copied to clipboard!',
+                classes: 'blue-grey darken-4 white-text'
+            });
         }, function (err) {
-            M.toast({ html: `Fail to copy: ${err}` });
+            M.toast({
+                html: `Fail to copy: ${err}`,
+                classes: 'red darken-1 white-text'
+            });
         });
     }
 
