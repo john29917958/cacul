@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 window.onload = function () {
     function Operand() {
         this._value = null;
