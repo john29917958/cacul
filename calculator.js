@@ -151,32 +151,41 @@ window.onload = function () {
         }
     };
 
-    operand1.set(0);
-
-    let numBtns = document.querySelectorAll('.num-btn');
-    for (const numBtn of numBtns) {
-        numBtn.addEventListener('click', function (e) {
-            let number = Number(this.textContent);
-
-            if (!operator.isSet) {
-                operand1.append(number);
-            } else {
-                operand2.append(number);
-            }
-        });
+    function chooseOperand() {
+        if (operand2.isSet) {
+            return operand2;
+        } else if (operand1.isSet) {
+            return operand1;
+        } else {
+            return null;
+        }
     }
 
-    let operatorBtns = document.querySelectorAll('.operator-btn');
-    for (const operatorBtn of operatorBtns) {
-        operatorBtn.addEventListener('click', function (e) {
-            let op = this.getAttribute('data-op');
-            if (operand1.isSet) {
-                operator.set(op);
-            }
-        });
+    function setOperand(value) {
+        let number = Number(value);
+
+        if (!operator.isSet) {
+            operand1.append(number);
+        } else {
+            operand2.append(number);
+        }
     }
 
-    document.getElementById('equal-btn').addEventListener('click', function (e) {
+    function setOperator(op) {
+        if (operand1.isSet) {
+            operator.set(op);
+        }
+    }
+
+    function toFloat() {
+        if (operator.isSet) {
+            operand2.toFloat();
+        } else {
+            operand1.toFloat();
+        }
+    }
+
+    function calculate() {
         if (operand1.isSet && operator.isSet && operand2.isSet) {
             let result = 0;
             switch (operator.value) {
@@ -199,86 +208,24 @@ window.onload = function () {
             operator.unset();
             operand2.unset();
         }
-    });
+    }
 
-    document.getElementById('global-clear-btn').addEventListener('click', function () {
+    function clearAll() {
         operand1.set(0);
         operator.unset();
         operand2.unset();
-    });
-
-    document.getElementById('dot-btn').addEventListener('click', function () {
-        if (operator.isSet) {
-            operand2.toFloat();
-        } else {
-            operand1.toFloat();
-        }
-    });
-
-    function chooseOperand() {
-        if (operand2.isSet) {
-            return operand2;
-        } else if (operand1.isSet) {
-            return operand1;
-        } else {
-            return null;
-        }
     }
 
-    document.getElementById('plus-minus-btn').addEventListener('click', function () {
-        let operand = chooseOperand();
-        if (!operand) {
-            return;
-        }
-
-        let value = (-Number(operand.value)).toString();
-        operand.set(value);
-    });
-
-
-    document.getElementById('square-btn').addEventListener('click', function () {
-        let operand = chooseOperand();
-        if (!operand) {
-            return;
-        }
-
-        let bigDec = new bigDecimal(operand.value);
-        bigDec = bigDec.multiply(bigDec);
-        let numStr = bigDec.getValue();
-        let number = Number(numStr);
-        operand.set(number);
-    });
-
-    document.getElementById('reciprocal-btn').addEventListener('click', function () {
-        let operand = chooseOperand();
-        if (!operand) {
-            return;
-        }
-
-        let value = 1 / Number(operand.value);
-        operand.set(value);
-    });
-
-    document.getElementById('clear-entry-btn').addEventListener('click', function () {
+    function clearEntry() {
         let operand = chooseOperand();
         if (!operand) {
             return;
         }
 
         operand.set(0);
-    });
+    }
 
-    document.getElementById('square-root-btn').addEventListener('click', function () {
-        let operand = chooseOperand();
-        if (!operand) {
-            return;
-        }
-
-        let value = Math.sqrt(Number(operand.value));
-        operand.set(value);
-    });
-
-    document.getElementById('delete-btn').addEventListener('click', function () {
+    function deleteLastDigit() {
         if (operand2.isSet) {
             if (operand2.value.length === 1) {
                 operand2.unset();
@@ -302,9 +249,50 @@ window.onload = function () {
         } else {
             // No digit to delete.
         }
-    });
+    }
 
-    document.getElementById('percentage-btn').addEventListener('click', function () {
+    function reverseSignOfNumber() {
+        let operand = chooseOperand();
+        if (operand && Number(operand.value).toString() !== 'Infinity') {
+            let value = (-Number(operand.value)).toString();
+            operand.set(value);
+        }
+    }
+
+    function square() {
+        let operand = chooseOperand();
+        if (!operand) {
+            return;
+        }
+
+        let bigDec = new bigDecimal(operand.value);
+        bigDec = bigDec.multiply(bigDec);
+        let numStr = bigDec.getValue();
+        let number = Number(numStr);
+        operand.set(number);
+    }
+
+    function findReciprocal() {
+        let operand = chooseOperand();
+        if (!operand) {
+            return;
+        }
+
+        let value = 1 / Number(operand.value);
+        operand.set(value);
+    }
+
+    function calcSquareRoot() {
+        let operand = chooseOperand();
+        if (!operand) {
+            return;
+        }
+
+        let value = Math.sqrt(Number(operand.value));
+        operand.set(value);
+    }
+
+    function calcPercentage() {
         let operand = chooseOperand();
         if (!operand) {
             return;
@@ -327,5 +315,85 @@ window.onload = function () {
             let number = Number(numStr);
             operand.set(number);
         }
+    }
+
+    function copyToClipboard() {
+        let str = '';
+        if (operand1.isSet) {
+            str += operand1.value;
+        }
+        if (operator.isSet) {
+            str += operator.value;
+        }
+        if (operand2.isSet) {
+            let operand2Val = operand2.value;
+            if (Number(operand2Val) < 0) {
+                operand2Val = '(' + operand2Val + ')';
+            }
+            str += operand2Val;
+        }
+        navigator.clipboard.writeText(str).then(function () {
+            M.toast({ html: 'Copied to clipboard!' });
+        }, function (err) {
+            M.toast({ html: `Fail to copy: ${err}` });
+        });
+    }
+
+    let numBtns = document.querySelectorAll('.num-btn');
+    for (const numBtn of numBtns) {
+        numBtn.addEventListener('click', function (e) {
+            setOperand(this.textContent);
+        });
+    }
+
+    let operatorBtns = document.querySelectorAll('.operator-btn');
+    for (const operatorBtn of operatorBtns) {
+        operatorBtn.addEventListener('click', function () {
+            let op = this.getAttribute('data-op');
+            setOperator(op);
+        });
+    }
+
+    document.getElementById('equal-btn').addEventListener('click', calculate.bind());
+    document.getElementById('global-clear-btn').addEventListener('click', clearAll.bind());
+    document.getElementById('dot-btn').addEventListener('click', toFloat.bind());
+    document.getElementById('plus-minus-btn').addEventListener('click', reverseSignOfNumber.bind());
+    document.getElementById('square-btn').addEventListener('click', square.bind());
+    document.getElementById('reciprocal-btn').addEventListener('click', findReciprocal.bind());
+    document.getElementById('clear-entry-btn').addEventListener('click', clearEntry.bind());
+    document.getElementById('square-root-btn').addEventListener('click', calcSquareRoot.bind());
+    document.getElementById('delete-btn').addEventListener('click', deleteLastDigit.bind());
+    document.getElementById('percentage-btn').addEventListener('click', calcPercentage.bind());
+    document.addEventListener('keydown', function (e) {
+        if (!isNaN(e.key) && !isNaN(parseFloat(e.key))) {
+            setOperand(e.key);
+        } else if (e.key === 'Enter') {
+            calculate();
+        } else if (e.key === 'Backspace') {
+            deleteLastDigit();
+        } else if (e.ctrlKey && e.key === 'c') {
+            copyToClipboard();
+        } else if (e.key === 'c') {
+            clearAll();
+        } else if (e.key === 'e') {
+            clearEntry();
+        } else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+            setOperator(e.key);
+        } else if (e.key === '.') {
+            toFloat();
+        } else if (e.key === "r") {
+            reverseSignOfNumber();
+        } else if (e.ctrlKey && e.key === 's') {
+            e.preventDefault();
+            calcSquareRoot();
+        } else if (e.key === 's') {
+            square();
+        } else if (e.key === 'i') {
+            findReciprocal();
+        } else if (e.key === '%') {
+            calcPercentage();
+        }
     });
+
+    operand1.set(0);
 }
