@@ -188,20 +188,21 @@ window.onload = function () {
             let result = 0;
             switch (operator.value) {
                 case '+':
-                    result = Number(operand1.value) + Number(operand2.value);
+                    result = new bigDecimal(operand1.value).add(new bigDecimal(operand2.value));
                     break;
                 case '-':
-                    result = Number(operand1.value) - Number(operand2.value);
+                    result = new bigDecimal(operand1.value).subtract(new bigDecimal(operand2.value));
                     break;
                 case '*':
-                    result = Number(operand1.value) * Number(operand2.value);
+                    result = new bigDecimal(operand1.value).multiply(new bigDecimal(operand2.value));
                     break;
                 case '/':
-                    result = Number(operand1.value) / Number(operand2.value);
+                    result = new bigDecimal(operand1.value).divide(new bigDecimal(operand2.value));
                     break;
                 default:
                     throw `Unsupported operator ${operator.value}.`;
             }
+            result = Number(result.getValue());
             operand1.set(result);
             operator.unset();
             operand2.unset();
