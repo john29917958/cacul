@@ -1,6 +1,13 @@
 'use strict';
 
 window.onload = function () {
+    /* Cancel the watch feature of FontAwesome SVG Core Plugins in order to
+    avoid web font icon converted to SVG icon.
+    Please refer to: https://fontawesome.com/docs/apis/javascript/plugins#an-example
+    Search for "dom.watch()".
+    */
+    FontAwesome.dom.unwatch();
+
     function Operand() {
         this._value = null;
     }
