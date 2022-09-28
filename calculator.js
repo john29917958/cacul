@@ -334,7 +334,7 @@ window.onload = function () {
         navigator.clipboard.writeText(str).then(function () {
             M.toast({
                 html: 'Copied to clipboard!',
-                classes: 'blue-grey darken-4 white-text'
+                classes: 'white black-text'
             });
         }, function (err) {
             M.toast({
