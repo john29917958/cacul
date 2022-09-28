@@ -19,8 +19,19 @@
             height: 100%;
         }
 
-        /*
         @media only screen and (max-device-height: 915px) {
+            * {
+                touch-action: manipulation;
+            }
+
+            button {
+                font-size: 500% !important;
+            }
+
+            #screen {
+                font-size: 450% !important;
+            }
+
             #calculator {
                 width: 100% !important;
                 height: 100% !important;
@@ -29,19 +40,43 @@
             #adjustment-line-break {
                 display: none;
             }
+
+            #screen {
+                height: 15%;
+                margin-bottom: 10px !important;
+            }
+
+            #screen>.col {
+                height: 100%;
+            }
+
+            #screen>.col>.card-panel {
+                height: calc(100% - 25px);
+            }
+
+            .btn-row {
+                height: calc(85%/6 - 15px);
+            }
+
+            .btn-row>.col {
+                height: 100%;
+            }
+
+            #info {
+                height: 15px;
+            }
         }
-        */
     </style>
 </head>
 
 <body class="blue-grey darken-4" style="height: 100%;">
     <br id="adjustment-line-break" />
     <div class="card-panel blue-grey darken-3" id="calculator" style="width: 300px; margin: 0 auto;">
-        <div class="row" style="margin-bottom: 3px;">
+        <div class="row" id="screen" style="margin-bottom: 3px;">
             <div class="col s12" style="padding-left: 4px; padding-right: 4px;">
-                <div class="card-panel right-align blue-grey darken-3 pink-text text-lighten-4"
+                <div class="card-panel blue-grey darken-3 pink-text text-lighten-4 valign-wrapper"
                     style="box-shadow: inset 1px 1px 5px 0 rgba(0, 0, 0, 0.2); text-shadow: 0 0 2px #F44336;">
-                    <p style="margin: 0;">
+                    <p class="right-align" style="margin: 0; width: 100%">
                         <span id="operand-1"></span>
                         <i id="operator" style="vertical-align: middle;"></i>
                         <span id="operand-2"></span>
@@ -49,7 +84,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="margin-bottom: 8px;">
+        <div class="row btn-row" style="margin-bottom: 8px;">
             <div class="col s3 grid">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text" id="percentage-btn">
                     %
@@ -71,7 +106,7 @@
                 </button>
             </div>
         </div>
-        <div class="row" style="margin-bottom: 8px;">
+        <div class="row btn-row" style="margin-bottom: 8px;">
             <div class="col s3 grid">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text" id="reciprocal-btn">
                     1/x
@@ -93,7 +128,7 @@
                 </button>
             </div>
         </div>
-        <div class="row" style="margin-bottom: 8px;">
+        <div class="row btn-row" style="margin-bottom: 8px;">
             <div class="col s3 grid">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     7
@@ -115,7 +150,7 @@
                 </button>
             </div>
         </div>
-        <div class="row" style="margin-bottom: 8px;">
+        <div class="row btn-row" style="margin-bottom: 8px;">
             <div class="col s3 grid">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     4
@@ -137,7 +172,7 @@
                 </button>
             </div>
         </div>
-        <div class="row" style="margin-bottom: 8px;">
+        <div class="row btn-row" style="margin-bottom: 8px;">
             <div class="col s3 grid">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     1
@@ -159,7 +194,7 @@
                 </button>
             </div>
         </div>
-        <div class="row" style="margin-bottom: 8px;">
+        <div class="row btn-row" style="margin-bottom: 8px;">
             <div class="col s3 grid">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text" id="plus-minus-btn">
                     +/-
@@ -181,7 +216,11 @@
                 </button>
             </div>
         </div>
-        <span class="white-text">ver 0.1</span>
+        <small class="white-text" id="info">
+            Version 0.1
+            <br />
+            Developer: Tzu-chao Wang
+        </small>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
