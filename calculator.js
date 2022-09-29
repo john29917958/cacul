@@ -174,7 +174,7 @@
         }
 
         function calculate() {
-            if (operand1.isSet && operator.isSet && operand2.isSet) {
+            if (operand1.isSet && operator.isSet && operand2.isSet) {                
                 let result = 0;
                 let num1 = new bigDecimal(operand1.value);
                 let num2 = new bigDecimal(operand2.value);
@@ -370,6 +370,10 @@
         document.getElementById('delete-btn').addEventListener('click', deleteLastDigit.bind());
         document.getElementById('percentage-btn').addEventListener('click', calcPercentage.bind());
         document.addEventListener('keydown', function (e) {
+            if (e.target && e.target instanceof HTMLButtonElement && e.key === 'Enter') {
+                e.preventDefault();
+            }
+
             if (!isNaN(e.key) && !isNaN(parseFloat(e.key))) {
                 setOperand(e.key);
             } else if (e.key === 'Enter') {
