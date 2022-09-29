@@ -176,18 +176,28 @@
         function calculate() {
             if (operand1.isSet && operator.isSet && operand2.isSet) {
                 let result = 0;
+                let num1 = new bigDecimal(operand1.value);
+                let num2 = new bigDecimal(operand2.value);
+                if (operand1.value.startsWith('-')) {
+                    num1 = new bigDecimal(operand1.value.substr(1));
+                    num1 = num1.multiply(new bigDecimal(-1));
+                }
+                if (operand2.value.startsWith('-')) {
+                    num2 = new bigDecimal(operand2.value.substr(1));
+                    num2 = num2.multiply(new bigDecimal(-1));
+                }
                 switch (operator.value) {
                     case '+':
-                        result = new bigDecimal(operand1.value).add(new bigDecimal(operand2.value));
+                        result = num1.add(num2);
                         break;
                     case '-':
-                        result = new bigDecimal(operand1.value).subtract(new bigDecimal(operand2.value));
+                        result = num1.subtract(num2);
                         break;
                     case '*':
-                        result = new bigDecimal(operand1.value).multiply(new bigDecimal(operand2.value));
+                        result = num1.multiply(num2);
                         break;
                     case '/':
-                        result = new bigDecimal(operand1.value).divide(new bigDecimal(operand2.value));
+                        result = num1.divide(num2);
                         break;
                     default:
                         throw `Unsupported operator ${operator.value}.`;
