@@ -161,6 +161,9 @@
 
         function setOperator(op) {
             if (operand1.isSet) {
+                if (operator.isSet && operand2.isSet) {
+                    calculate();
+                }
                 operator.set(op);
             }
         }
