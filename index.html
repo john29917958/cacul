@@ -15,23 +15,27 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
     <style>
-        .grid {
-            padding-left: 4px !important;
-            padding-right: 4px !important;
-        }
-
-        .btn {
+        #calculator .btn {
             width: 100%;
             height: 100%;
         }
 
-        @media only screen and (max-device-width: 414px) {
+        .calculer-row {
+            margin-bottom: 10px !important;
+        }
+
+        .calculer-col {
+            padding: 0 0.3rem !important;
+        }
+
+        @media only screen and (max-device-width: 600px) {
             * {
                 touch-action: manipulation;
             }
 
             button {
-                font-size: 180% !important;
+                font-size: 160% !important;
+                border-radius: 7% !important;
             }
 
             #screen {
@@ -48,28 +52,22 @@
             }
 
             #screen {
-                height: 15%;
-                margin-bottom: 10px !important;
-            }
-
-            #screen>.col {
-                height: 100%;
+                height: 40%;                
             }
 
             #screen>.col>.card-panel {
-                height: calc(100% - 25px);
+                height: calc(100% - 21px);
+                border-radius: 6% !important;
             }
 
-            .btn-row {
-                height: calc(85%/6 - 15px);
+            .calculer-row {
+                height: 8.4%;
+                margin-bottom: 10%;
             }
 
-            .btn-row>.col {
+            .calculer-row>.col {
                 height: 100%;
-            }
-
-            #info {
-                height: 15px;
+                padding: 0 0.5rem !important;
             }
         }
     </style>
@@ -78,9 +76,15 @@
 <body class="blue-grey darken-4" style="height: 100%;">
     <br id="adjustment-line-break" />
     <div class="card-panel blue-grey darken-3" id="calculator"
-        style="width: 300px; margin: 0 auto; padding-bottom: 15px;">
-        <div class="row" id="screen" style="margin-bottom: 3px;">
-            <div class="col s12" style="padding-left: 4px; padding-right: 4px;">
+        style="width: 300px; margin: 0 auto; position: relative;">
+        <a href="#" data-target="menu" class="sidenav-trigger blue-grey-text text-lighten-1"
+            style="position: absolute; left: 4px; top: 4px; margin: 0; padding: 0;">
+            <i class="material-icons">
+                menu
+            </i>
+        </a>
+        <div class="row calculer-row" id="screen">
+            <div class="col s12 calculer-col">
                 <div class="card-panel blue-grey darken-3 pink-text text-lighten-4 valign-wrapper"
                     style="box-shadow: inset 1px 1px 5px 0 rgba(0, 0, 0, 0.2); text-shadow: 0 0 2px #F44336;">
                     <p class="right-align" style="margin: 0; width: 100%">
@@ -91,133 +95,133 @@
                 </div>
             </div>
         </div>
-        <div class="row btn-row" style="margin-bottom: 8px;">
-            <div class="col s3 grid">
+        <div class="row calculer-row">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text" id="percentage-btn">
                     %
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text" id="clear-entry-btn">
                     CE
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text" id="global-clear-btn">
                     C
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text" id="delete-btn">
                     <i class="fa-solid fa-delete-left"></i>
                 </button>
             </div>
         </div>
-        <div class="row btn-row" style="margin-bottom: 8px;">
-            <div class="col s3 grid">
+        <div class="row calculer-row">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text" id="reciprocal-btn">
                     1/x
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text" id="square-btn">
                     x<sup>2</sup>
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text" id="square-root-btn">
                     <i class="fa-solid fa-square-root-variable"></i>
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text operator-btn" data-op="/">
                     <i class="fa-solid fa-divide"></i>
                 </button>
             </div>
         </div>
-        <div class="row btn-row" style="margin-bottom: 8px;">
-            <div class="col s3 grid">
+        <div class="row calculer-row">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     7
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     8
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     9
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text operator-btn" data-op="*">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
         </div>
-        <div class="row btn-row" style="margin-bottom: 8px;">
-            <div class="col s3 grid">
+        <div class="row calculer-row">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     4
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     5
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     6
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text operator-btn" data-op="-">
                     <i class="fa-solid fa-minus"></i>
                 </button>
             </div>
         </div>
-        <div class="row btn-row" style="margin-bottom: 8px;">
-            <div class="col s3 grid">
+        <div class="row calculer-row">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     1
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     2
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     3
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text operator-btn" data-op="+">
                     <i class="fa-solid fa-plus"></i>
                 </button>
             </div>
         </div>
-        <div class="row btn-row">
-            <div class="col s3 grid">
+        <div class="row calculer-row">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text" id="plus-minus-btn">
                     +/-
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text num-btn">
                     0
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn blue-grey darken-1 white-text" id="dot-btn">
                     .
                 </button>
             </div>
-            <div class="col s3 grid">
+            <div class="col s3 calculer-col">
                 <button class="waves-effect waves-light btn pink darken-1 white-text" id="equal-btn">
                     <i class="fa-solid fa-equals center-align"></i>
                 </button>
@@ -225,7 +229,7 @@
         </div>
     </div>
 
-    <div class="grey-text center-align" id="info" style="margin: 0;">
+    <div class="grey-text center-align hide-on-small-only" id="info" style="margin: 0;">
         <div class="section" style="padding-bottom: 4px;">
             Calculer v0.1 2022
             &nbsp;
@@ -251,6 +255,84 @@
         <a class="grey-text waves-effect waves-light btn-flat" href="https://john29917958.github.io/" target="_blank">
             <i class="fa-solid fa-globe"></i>
         </a>
+    </div>
+
+    <ul id="menu" class="sidenav">
+        <!--li>
+            <div class="user-view">
+                <div class="background">
+                </div>
+                <a class="blue-grey-text text-darken-4">
+                    <img class="circle" src="https://avatars.githubusercontent.com/u/6781037?v=4">
+                    <i class="material-icons circle" style="font-size: 5rem;">
+                        account_circle
+                    </i>
+                </a>
+                <a class="black-text"><span class="name">Tzu-chao Wang</span></a>
+                <a class="black-text"><span class="email">john29917958@gmail.com</span></a>
+                <a class="black-text hide"><span class="name">sign up or log in</span></a>
+            </div>
+        </li-->
+        <!--li>
+            <a class="waves-effect modal-trigger" id="settings-menu-item" href="#settings-modal">
+                <i class="material-icons">settings</i>
+                Settings
+            </a>
+        </li>
+        <li>
+            <div class="divider"></div>
+        </li-->
+        <li>
+            <a class="waves-effect modal-trigger" id="about-menu-item" href="#about-modal">
+                <i class="material-icons">info_outline</i>
+                About
+            </a>
+        </li>
+        <!--li><a class="subheader">Subheader</a></li--->
+    </ul>
+
+    <div id="about-modal" class="modal modal-fixed-footer">
+        <div class="modal-content center-align">
+            <br />
+            <h4>
+                <i class="fa-solid fa-calculator"></i>
+            </h4>
+            <br />
+            <h4>
+                Calculer 0.1
+            </h4>
+            <p>
+                A simple calculator that makes your life better.
+            </p>
+            <p>by Tzu-chao Wang.</p>
+            <p>
+                <a class="waves-effect btn-flat" href="https://github.com/john29917958" target="_blank">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a class="waves-effect btn-flat" href="https://twitter.com/john29917958" target="_blank">
+                    <i class="fa-brands fa-twitter"></i>
+                </a>
+                <a class="waves-effect btn-flat" href="https://www.linkedin.com/in/tzu-chao-wang/" target="_blank">
+                    <i class="fa-brands fa-linkedin"></i>
+                </a>
+                <a class="waves-effect btn-flat" href="https://john29917958.github.io/" target="_blank">
+                    <i class="fa-solid fa-globe"></i>
+                </a>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect btn-flat">Close</a>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            Settings... developing...
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="pink modal-close waves-effect waves-light btn">OK</a>
+            <a href="#!" class="modal-close waves-effect btn-flat">Close</a>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
