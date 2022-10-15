@@ -38,7 +38,7 @@
     }
 
     Operator.prototype = Object.create(Token.prototype);
-    
+
     Operator.constructor = Operator;
 
     Operator.prototype.set = function (value) {
@@ -108,6 +108,14 @@
         Search for "dom.watch()".
         */
         FontAwesome.dom.unwatch();
+        M.AutoInit();
+        const menu = M.Sidenav.getInstance(document.getElementById('menu'));
+        document.getElementById('about-menu-item').addEventListener('click', function () {
+            menu.close();
+        });
+        /* document.getElementById('settings-menu-item').addEventListener('click', function () {
+            menu.close();
+        }); */
 
         let operand1 = new Operand();
         (function () {
@@ -177,7 +185,7 @@
         }
 
         function calculate() {
-            if (operand1.isSet && operator.isSet && operand2.isSet) {                
+            if (operand1.isSet && operator.isSet && operand2.isSet) {
                 let result = 0;
                 let num1 = new bigDecimal(operand1.value);
                 let num2 = new bigDecimal(operand2.value);
