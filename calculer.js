@@ -113,9 +113,9 @@
         document.getElementById('about-menu-item').addEventListener('click', function () {
             menu.close();
         });
-        /* document.getElementById('settings-menu-item').addEventListener('click', function () {
+        document.getElementById('settings-menu-item').addEventListener('click', function () {
             menu.close();
-        }); */
+        });
 
         let operand1 = new Operand();
         (function () {
@@ -416,6 +416,24 @@
         });
 
         operand1.set(0);
+
+        let settingsModal = document.getElementById('settings-modal');
+        let settingsNav = document.getElementById('settings-nav');
+        let options = settingsNav.querySelectorAll('li');
+        let settingsPages = settingsModal.querySelectorAll('.settings-page');
+        for (let i = 0; i < options.length; i++) {
+            options[i].addEventListener('click', function () {
+                for (let j = 0; j < settingsPages.length; j++) {
+                    if (i === j)  {
+                        options[j].classList.add('active');
+                        settingsPages[j].classList.remove('hide');
+                    } else {
+                        options[j].classList.remove('active');
+                        settingsPages[j].classList.add('hide');
+                    }
+                }
+            });
+        }
     }
 
 })();

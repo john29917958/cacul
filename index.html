@@ -28,6 +28,10 @@
             padding: 0 0.3rem !important;
         }
 
+        .menu-modal {
+            width: 90% !important;
+        }
+
         @media only screen and (max-device-width: 600px) {
             * {
                 touch-action: manipulation;
@@ -52,7 +56,7 @@
             }
 
             #screen {
-                height: 40%;                
+                height: 40%;
             }
 
             #screen>.col>.card-panel {
@@ -244,13 +248,13 @@
                 <a class="black-text hide"><span class="name">sign up or log in</span></a>
             </div>
         </li-->
-        <!--li>
+        <li>
             <a class="waves-effect modal-trigger" id="settings-menu-item" href="#settings-modal">
                 <i class="material-icons">settings</i>
                 Settings
             </a>
         </li>
-        <li>
+        <!--li>
             <div class="divider"></div>
         </li-->
         <li>
@@ -296,13 +300,50 @@
         </div>
     </div>
 
-    <div id="settings-modal" class="modal modal-fixed-footer">
-        <div class="modal-content">
-            Settings... developing...
+    <div id="settings-modal" class="modal modal-fixed-footer menu-modal">
+        <!-- <a href="#" data-target="settings-nav"
+            class="top-nav sidenav-trigger waves-effect waves-light circle hide-on-large-only grey-text">
+            <i class="material-icons">menu</i>
+        </a> -->
+        <ul class="sidenav sidenav-fixed" id="settings-nav"
+            style="padding: 0 !important; height: calc(100% - 56px) !important; box-shadow: 0 0 2px 0 rgb(0 0 0 / 14%), 0 0 1px -2px rgb(0 0 0 / 12%), 0 0 5px 0 rgb(0 0 0 / 20%);">
+            <li class="active">
+                <a href="#!">
+                    <i class="material-icons">color_lens</i>
+                    Theme
+                </a>
+            </li>
+            <li>
+                <a href="#!">
+                    <i class="material-icons">keyboard</i>
+                    Keyboard Shortcuts
+                </a>
+            </li>
+        </ul>
+        <div class="modal-content" style="padding-left: 310px; padding-top: 0.7rem;">
+            <div class="settings-page">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="https://colourlex.com/wp-content/uploads/2021/02/vine-black-painted-swatch-300x300.jpg.webp" />
+                                <span class="card-title">Dark</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-page hide">
+                <div class="row">
+                    <div class="col s12">
+                        <h4>Keyboard Shortcuts</h4>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="pink modal-close waves-effect waves-light btn">OK</a>
-            <a href="#!" class="modal-close waves-effect btn-flat">Close</a>
+            <button class="pink modal-close waves-effect waves-light btn">OK</button>
+            <button class="modal-close waves-effect btn-flat">Close</button>
         </div>
     </div>
 
