@@ -381,6 +381,7 @@
         document.getElementById('delete-btn').addEventListener('click', deleteLastDigit.bind());
         document.getElementById('percentage-btn').addEventListener('click', calcPercentage.bind());
         document.addEventListener('keydown', function (e) {
+            console.log(e.key);
             if (e.target && e.target instanceof HTMLButtonElement && e.key === 'Enter') {
                 e.preventDefault();
             }
