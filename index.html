@@ -248,12 +248,18 @@
                 <a class="black-text hide"><span class="name">sign up or log in</span></a>
             </div>
         </li-->
-        <li>
+        <li class="hide-on-small-only">
+            <a class="waves-effect modal-trigger" id="settings-menu-item" href="#settings-modal">
+                <i class="material-icons">keyboard</i>
+                Keyboard Shortcuts
+            </a>
+        </li>
+        <!--li>
             <a class="waves-effect modal-trigger" id="settings-menu-item" href="#settings-modal">
                 <i class="material-icons">settings</i>
                 Settings
             </a>
-        </li>
+        </li-->
         <!--li>
             <div class="divider"></div>
         </li-->
@@ -277,9 +283,24 @@
                 Calculer 0.1
             </h4>
             <p>
-                A simple calculator that makes your life better.
+                A simple calculator that makes your life better.                
             </p>
-            <p>by Tzu-chao Wang.</p>
+            <p>
+                <i class="material-icons">
+                    desktop_windows
+                </i>
+                <i class="material-icons">
+                    desktop_mac
+                </i>
+                <i class="material-icons">
+                    phone_android
+                </i>
+                <i class="material-icons">
+                    phone_iphone
+                </i>
+            </p>
+            <br />
+            <p>by Tzu-chao Wang</p>
             <p>
                 <a class="waves-effect btn-flat" href="https://github.com/john29917958" target="_blank">
                     <i class="fa-brands fa-github"></i>
@@ -305,7 +326,7 @@
             class="top-nav sidenav-trigger waves-effect waves-light circle hide-on-large-only grey-text">
             <i class="material-icons">menu</i>
         </a> -->
-        <ul class="sidenav sidenav-fixed" id="settings-nav"
+        <ul class="sidenav sidenav-fixed hide" id="settings-nav"
             style="padding: 0 !important; height: calc(100% - 56px) !important; box-shadow: 0 0 2px 0 rgb(0 0 0 / 14%), 0 0 1px -2px rgb(0 0 0 / 12%), 0 0 5px 0 rgb(0 0 0 / 20%);">
             <li class="active">
                 <a class="waves-effect" href="#!">
@@ -320,8 +341,8 @@
                 </a>
             </li>
         </ul>
-        <div class="modal-content" style="padding-left: 315px; padding-top: 1rem;">
-            <div class="settings-page">
+        <div class="modal-content" style="padding-top: 1rem;">
+            <div class="settings-page hide">
                 <div class="row">
                     <div class="col s12 m6 l4 xl2">
                         <div class="card hoverable" style="cursor: pointer;">
@@ -341,126 +362,127 @@
                     </div>
                 </div>
             </div>
-            <div class="settings-page hide">
+            <div class="settings-page" style="padding-left: 40px; padding-right: 40px;">
                 <div class="row">
                     <div class="col s12">
+                        <br />
                         <h4>Keyboard Shortcuts</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Command</th>
+                                    <th>Keybindings</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Number 1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>Number 2</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>Number 3</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <td>Number 4</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td>Number 5</td>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <td>Number 6</td>
+                                    <td>6</td>
+                                </tr>
+                                <tr>
+                                    <td>Number 7</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td>Number 8</td>
+                                    <td>8</td>
+                                </tr>
+                                <tr>
+                                    <td>Number 9</td>
+                                    <td>9</td>
+                                </tr>
+                                <tr>
+                                    <td>Number 0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>Add</td>
+                                    <td>+</td>
+                                </tr>
+                                <tr>
+                                    <td>Subtract</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>Multiply</td>
+                                    <td>*</td>
+                                </tr>
+                                <tr>
+                                    <td>Divide</td>
+                                    <td>/</td>
+                                </tr>
+                                <tr>
+                                    <td>Point</td>
+                                    <td>.</td>
+                                </tr>
+                                <tr>
+                                    <td>Calculate</td>
+                                    <td>Enter</td>
+                                </tr>
+                                <tr>
+                                    <td>Delete last digit</td>
+                                    <td>Backspace</td>
+                                </tr>
+                                <tr>
+                                    <td>Global clear</td>
+                                    <td>C</td>
+                                </tr>
+                                <tr>
+                                    <td>Clear entry</td>
+                                    <td>E</td>
+                                </tr>
+                                <tr>
+                                    <td>Percentage</td>
+                                    <td>%</td>
+                                </tr>
+                                <tr>
+                                    <td>Square</td>
+                                    <td>S</td>
+                                </tr>
+                                <tr>
+                                    <td>Square root</td>
+                                    <td>Ctrl + S</td>
+                                </tr>
+                                <tr>
+                                    <td>Find reciprocal</td>
+                                    <td>I</td>
+                                </tr>
+                                <tr>
+                                    <td>Reverse sign</td>
+                                    <td>R</td>
+                                </tr>
+                                <tr>
+                                    <td>Copy</td>
+                                    <td>Ctrl + C</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Command</th>
-                                <th>Keybindings</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Number 1</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>Number 2</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>Number 3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>Number 4</td>
-                                <td>4</td>
-                            </tr>
-                            <tr>
-                                <td>Number 5</td>
-                                <td>5</td>
-                            </tr>
-                            <tr>
-                                <td>Number 6</td>
-                                <td>6</td>
-                            </tr>
-                            <tr>
-                                <td>Number 7</td>
-                                <td>7</td>
-                            </tr>
-                            <tr>
-                                <td>Number 8</td>
-                                <td>8</td>
-                            </tr>
-                            <tr>
-                                <td>Number 9</td>
-                                <td>9</td>
-                            </tr>
-                            <tr>
-                                <td>Number 0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>Add</td>
-                                <td>+</td>
-                            </tr>
-                            <tr>
-                                <td>Subtract</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>Multiply</td>
-                                <td>*</td>
-                            </tr>
-                            <tr>
-                                <td>Divide</td>
-                                <td>/</td>
-                            </tr>
-                            <tr>
-                                <td>Point</td>
-                                <td>.</td>
-                            </tr>
-                            <tr>
-                                <td>Calculate</td>
-                                <td>Enter</td>
-                            </tr>
-                            <tr>
-                                <td>Delete last digit</td>
-                                <td>Backspace</td>
-                            </tr>
-                            <tr>
-                                <td>Global clear</td>
-                                <td>C</td>
-                            </tr>
-                            <tr>
-                                <td>Clear entry</td>
-                                <td>E</td>
-                            </tr>
-                            <tr>
-                                <td>Percentage</td>
-                                <td>%</td>
-                            </tr>
-                            <tr>
-                                <td>Square</td>
-                                <td>S</td>
-                            </tr>
-                            <tr>
-                                <td>Square root</td>
-                                <td>Ctrl + S</td>
-                            </tr>
-                            <tr>
-                                <td>Find reciprocal</td>
-                                <td>I</td>
-                            </tr>
-                            <tr>
-                                <td>Reverse sign</td>
-                                <td>R</td>
-                            </tr>
-                            <tr>
-                                <td>Copy</td>
-                                <td>Ctrl + C</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button class="pink modal-close waves-effect waves-light btn">OK</button>
+            <!-- <button class="pink modal-close waves-effect waves-light btn">OK</button> -->
             <button class="modal-close waves-effect btn-flat">Close</button>
         </div>
     </div>
