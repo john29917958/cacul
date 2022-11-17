@@ -421,7 +421,7 @@
         let settingsNav = document.getElementById('settings-nav');
         let options = settingsNav.querySelectorAll('li');
         let settingsPages = settingsModal.querySelectorAll('.settings-page');
-        for (let i = 0; i < options.length; i++) {
+        /* for (let i = 0; i < options.length; i++) {
             options[i].addEventListener('click', function () {
                 for (let j = 0; j < settingsPages.length; j++) {
                     if (i === j) {
@@ -433,7 +433,7 @@
                     }
                 }
             });
-        }
+        } */
     }
 
 })();
