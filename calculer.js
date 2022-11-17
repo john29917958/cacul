@@ -381,7 +381,6 @@
         document.getElementById('delete-btn').addEventListener('click', deleteLastDigit.bind());
         document.getElementById('percentage-btn').addEventListener('click', calcPercentage.bind());
         document.addEventListener('keydown', function (e) {
-            console.log(e.key);
             if (e.target && e.target instanceof HTMLButtonElement && e.key === 'Enter') {
                 e.preventDefault();
             }
@@ -422,10 +421,10 @@
         let settingsNav = document.getElementById('settings-nav');
         let options = settingsNav.querySelectorAll('li');
         let settingsPages = settingsModal.querySelectorAll('.settings-page');
-        for (let i = 0; i < options.length; i++) {
+        /* for (let i = 0; i < options.length; i++) {
             options[i].addEventListener('click', function () {
                 for (let j = 0; j < settingsPages.length; j++) {
-                    if (i === j)  {
+                    if (i === j) {
                         options[j].classList.add('active');
                         settingsPages[j].classList.remove('hide');
                     } else {
@@ -434,7 +433,7 @@
                     }
                 }
             });
-        }
+        } */
     }
 
 })();
