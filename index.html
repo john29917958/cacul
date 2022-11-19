@@ -81,9 +81,9 @@
     </style>
 </head>
 
-<body style="height: 100%;">
+<body class="card-panel" style="height: 100%;">
     <br id="adjustment-line-break" />
-    <div class="card-panel grey darken-4" id="calculator"
+    <div class="card-panel red darken-4" id="calculator"
         style="width: 300px; margin: 0 auto; position: relative;">
         <a href="#" data-target="menu" class="sidenav-trigger red-text"
             style="position: absolute; left: 4px; top: 4px; margin: 0; padding: 0;">
@@ -93,8 +93,8 @@
         </a>
         <div class="row calculer-row" id="screen">
             <div class="col s12 calculer-col">
-                <div class="card-panel grey darken-4 red-text text-accent-1 valign-wrapper"
-                    style="box-shadow: inset 1px 1px 5px 0 rgba(0, 0, 0, 0.9); text-shadow: 0 0 2px #F44336;">
+                <div class="card-panel red darken-4 red-text text-lighten-4 valign-wrapper"
+                    style="box-shadow: inset 1px 1px 8px 0 rgba(0, 0, 0, 0.2); text-shadow: 0 0 2px #FF8A80;">
                     <p class="right-align" style="margin: 0; width: 100%">
                         <span id="operand-1"></span>
                         <i id="operator" style="vertical-align: middle;"></i>
@@ -236,7 +236,7 @@
             </div>
         </div>
     </div>
-    <ul id="menu" class="sidenav grey darken-4">
+    <ul id="menu" class="sidenav red darken-4">
         <!--li>
             <div class="user-view">
                 <div class="background">
@@ -253,7 +253,7 @@
             </div>
         </li-->
         <li>
-            <a class="waves-effect waves-red modal-trigger grey-text text-lighten-2" id="settings-menu-item" href="#settings-modal">
+            <a class="waves-effect modal-trigger grey-text text-lighten-4" id="settings-menu-item" href="#settings-modal">
                 <i class="material-icons grey-text text-lighten-2">keyboard</i>
                 Keyboard Shortcuts
             </a>
@@ -268,7 +268,7 @@
             <div class="divider"></div>
         </li-->
         <li>
-            <a class="waves-effect waves-red modal-trigger grey-text text-lighten-2" id="about-menu-item" href="#about-modal">
+            <a class="waves-effect modal-trigger grey-text text-lighten-4" id="about-menu-item" href="#about-modal">
                 <i class="material-icons grey-text text-lighten-2">info_outline</i>
                 About
             </a>
@@ -276,7 +276,7 @@
         <!--li><a class="subheader">Subheader</a></li--->
     </ul>
 
-    <div id="about-modal" class="modal modal-fixed-footer grey darken-4 white-text">
+    <div id="about-modal" class="modal modal-fixed-footer red darken-4 white-text">
         <div class="modal-content center-align">
             <br />
             <h4>
@@ -305,17 +305,17 @@
                 </a>
             </p>
         </div>
-        <div class="modal-footer grey darken-4 white-text">
-            <button class="modal-close waves-effect waves-red btn-flat white-text" type="button">OK</button>
+        <div class="modal-footer red darken-4 white-text">
+            <button class="modal-close waves-effect waves-light btn-flat white-text" type="button">OK</button>
         </div>
     </div>
 
-    <div id="settings-modal" class="modal modal-fixed-footer menu-modal grey darken-4 white-text">
+    <div id="settings-modal" class="modal modal-fixed-footer menu-modal red darken-4 white-text">
         <!-- <a href="#" data-target="settings-nav"
             class="top-nav sidenav-trigger waves-effect waves-light circle hide-on-large-only grey-text">
             <i class="material-icons">menu</i>
         </a> -->
-        <ul class="sidenav sidenav-fixed grey darken-4 white-text" id="settings-nav"
+        <ul class="sidenav sidenav-fixed red darken-4 white-text" id="settings-nav"
             style="padding: 0 !important; height: calc(100% - 56px) !important; box-shadow: 0 0 2px 0 rgb(0 0 0 / 14%), 0 0 1px -2px rgb(0 0 0 / 12%), 0 0 5px 0 rgb(0 0 0 / 20%);">
             <!--li class="active">
                 <a class="waves-effect white-text" href="#!">
@@ -324,7 +324,7 @@
                 </a>
             </li-->
             <li>
-                <a class="waves-effect waves-red white-text" href="#!">
+                <a class="waves-effect white-text" href="#!">
                     <i class="material-icons white-text">keyboard</i>
                     Keyboard Shortcuts
                 </a>
@@ -470,9 +470,9 @@
                 </div>
             </div>
         </div>
-        <div class="modal-footer grey darken-4 white-text">
+        <div class="modal-footer red darken-4 white-text">
             <!--button class="red accent-3 modal-close waves-effect waves-light btn">OK</button-->
-            <button class="modal-close waves-effect waves-red btn-flat white-text">Close</button>
+            <button class="modal-close waves-effect waves-light btn-flat white-text">Close</button>
         </div>
     </div>
 
