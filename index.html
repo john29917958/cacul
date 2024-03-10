@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height: 100%">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>Calculer</title>
@@ -29,37 +29,23 @@
     <link rel="stylesheet" href="css/calculer.css" />
   </head>
 
-  <body style="height: 100%">
+  <body>
     <br id="adjustment-line-break" />
-    <div
-      class="card-panel blue-grey darken-4"
-      id="calculator"
-      style="width: 300px; margin: 0 auto; position: relative"
-    >
-      <a
-        href="#"
-        data-target="menu"
-        class="sidenav-trigger red-text"
-        style="position: absolute; left: 4px; top: 4px; margin: 0; padding: 0"
-      >
+    <div class="card-panel blue-grey darken-4" id="calculator">
+      <a href="#" data-target="menu" class="sidenav-trigger red-text">
         <i class="material-icons"> menu </i>
       </a>
       <div class="row calculer-row" id="screen">
         <div class="col s12 calculer-col">
           <div
             class="card-panel blue-grey darken-4 red-text text-lighten-4 valign-wrapper"
-            style="
-              font-size: 150%;
-              box-shadow: inset 1px 1px 8px 0 rgba(0, 0, 0, 0.2);
-              text-shadow: 0 0 2px #ff8a80;
-            "
           >
             <p
               class="right-align"
               style="margin: 0; width: 100%; overflow-wrap: anywhere"
             >
               <span id="operand-1"></span>
-              <i id="operator" style="vertical-align: middle"></i>
+              <i id="operator"></i>
               <span id="operand-2"></span>
             </p>
           </div>
@@ -261,21 +247,6 @@
       </div>
     </div>
     <ul id="menu" class="sidenav blue-grey darken-4">
-      <!--li>
-            <div class="user-view">
-                <div class="background">
-                </div>
-                <a class="red-text text-darken-4">
-                    <img class="circle" src="https://avatars.githubusercontent.com/u/6781037?v=4">
-                    <i class="material-icons circle" style="font-size: 5rem;">
-                        account_circle
-                    </i>
-                </a>
-                <a class="blue-grey darken-4-text"><span class="name">Tzu-chao Wang</span></a>
-                <a class="blue-grey darken-4-text"><span class="email">john29917958@gmail.com</span></a>
-                <a class="blue-grey darken-4-text hide"><span class="name">sign up or log in</span></a>
-            </div>
-        </li-->
       <li>
         <a
           class="waves-effect waves-light modal-trigger grey-text text-lighten-4"
@@ -286,15 +257,6 @@
           Keyboard Shortcuts
         </a>
       </li>
-      <!--li>
-            <a class="waves-effect modal-trigger" id="settings-menu-item" href="#settings-modal">
-                <i class="material-icons">settings</i>
-                Settings
-            </a>
-        </li-->
-      <!--li>
-            <div class="divider"></div>
-        </li-->
       <li>
         <a
           class="waves-effect waves-light modal-trigger grey-text text-lighten-4"
@@ -305,7 +267,6 @@
           About
         </a>
       </li>
-      <!--li><a class="subheader">Subheader</a></li--->
     </ul>
 
     <div
@@ -366,26 +327,16 @@
       id="settings-modal"
       class="modal modal-fixed-footer menu-modal blue-grey darken-4 white-text"
     >
-      <!-- <a href="#" data-target="settings-nav"
-            class="top-nav sidenav-trigger waves-effect waves-light circle hide-on-large-only grey-text">
-            <i class="material-icons">menu</i>
-        </a> -->
       <ul
         class="sidenav sidenav-fixed blue-grey darken-4 white-text"
         id="settings-nav"
-        style="
-          padding: 0 !important;
-          height: calc(100% - 56px) !important;
-          box-shadow: 0 0 2px 0 rgb(0 0 0 / 14%), 0 0 1px -2px rgb(0 0 0 / 12%),
-            0 0 5px 0 rgb(0 0 0 / 20%);
-        "
       >
-        <!--li class="active">
-                <a class="waves-effect white-text" href="#!">
-                    <i class="material-icons white-text">color_lens</i>
-                    Theme
-                </a>
-            </li-->
+        <li>
+          <a class="waves-effect waves-light white-text hide" href="#!">
+            <i class="material-icons white-text">color_lens</i>
+            Theme
+          </a>
+        </li>
         <li>
           <a class="waves-effect waves-light white-text" href="#!">
             <i class="material-icons white-text">keyboard</i>
@@ -537,7 +488,6 @@
         </div>
       </div>
       <div class="modal-footer blue-grey darken-4 white-text">
-        <!--button class="red modal-close waves-effect waves-light btn">OK</button-->
         <button
           class="modal-close waves-effect waves-light btn-flat white-text"
         >
