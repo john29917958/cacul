@@ -1,6 +1,189 @@
 "use strict";
 
 (function () {
+  window.onload = init;
+
+  function init() {
+    /* Cancel the watch feature of FontAwesome SVG Core Plugins in order to
+            avoid web font icon converted to SVG icon.
+            Please refer to: https://fontawesome.com/docs/apis/javascript/plugins#an-example
+            Search for "dom.watch()".
+            */
+    FontAwesome.dom.unwatch();
+    M.AutoInit();
+
+    let calculer = new Calculer();
+    let calculerController = new CalculerController(calculer);
+    let calculerView = new CalculerView(calculerController);
+    calculer.onOperand1ValueChanged = calculerView.setOperand1;
+    calculer.onOperatorValueChanged = calculerView.setOperator;
+    calculer.onOperand2ValueChanged = calculerView.setOperand2;
+    calculer.clearAll(0);
+
+    const menu = M.Sidenav.getInstance(document.getElementById("menu"));
+    document
+      .getElementById("about-menu-item")
+      .addEventListener("click", function () {
+        menu.close();
+      });
+    document
+      .getElementById("settings-menu-item")
+      .addEventListener("click", function () {
+        menu.close();
+      });
+    let settingsModal = document.getElementById("settings-modal");
+    let settingsNav = document.getElementById("settings-nav");
+    let options = settingsNav.querySelectorAll("li");
+    let settingsPages = settingsModal.querySelectorAll(".settings-page");
+    for (let i = 0; i < options.length; i++) {
+      options[i].addEventListener("click", function () {
+        for (let j = 0; j < settingsPages.length; j++) {
+          if (i === j) {
+            options[j].classList.add("active");
+            settingsPages[j].classList.remove("hide");
+          } else {
+            options[j].classList.remove("active");
+            settingsPages[j].classList.add("hide");
+          }
+        }
+      });
+    }
+  }
+
+  function CalculerController(calculer) {
+    this.setOperand = function (value) {
+      calculer.setOperand(value);
+    };
+    this.setOperator = function (operator) {
+      calculer.setOperator(operator);
+    };
+    this.calculate = () => calculer.calculate();
+    this.clearAll = () => calculer.clearAll();
+    this.toFloat = () => calculer.toFloat();
+    this.reverseSignOfNumber = () => calculer.reverseSignOfNumber();
+    this.square = () => calculer.square();
+    this.findReciprocal = () => calculer.findReciprocal();
+    this.clearEntry = () => calculer.clearEntry();
+    this.calcSquareRoot = () => calculer.calcSquareRoot();
+    this.deleteLastDigit = () => calculer.deleteLastDigit();
+    this.calcPercentage = () => calculer.calcPercentage();
+  }
+
+  function CalculerView(controller) {
+    let operand1 = document.getElementById("operand-1");
+    let operatorElem = document.getElementById("operator");
+    let operand2Elem = document.getElementById("operand-2");
+
+    let numBtns = document.querySelectorAll(".num-btn");
+    for (const numBtn of numBtns) {
+      numBtn.addEventListener("click", function (e) {
+        controller.setOperand(this.textContent);
+      });
+    }
+
+    let operatorBtns = document.querySelectorAll(".operator-btn");
+    for (const operatorBtn of operatorBtns) {
+      operatorBtn.addEventListener("click", function () {
+        let operator = this.getAttribute("data-op");
+        controller.setOperator(operator);
+      });
+    }
+
+    document
+      .getElementById("equal-btn")
+      .addEventListener("click", controller.calculate);
+    document
+      .getElementById("global-clear-btn")
+      .addEventListener("click", controller.clearAll);
+    document
+      .getElementById("dot-btn")
+      .addEventListener("click", controller.toFloat);
+    document
+      .getElementById("plus-minus-btn")
+      .addEventListener("click", controller.reverseSignOfNumber);
+    document
+      .getElementById("square-btn")
+      .addEventListener("click", controller.square);
+    document
+      .getElementById("reciprocal-btn")
+      .addEventListener("click", controller.findReciprocal);
+    document
+      .getElementById("clear-entry-btn")
+      .addEventListener("click", controller.clearEntry);
+    document
+      .getElementById("square-root-btn")
+      .addEventListener("click", controller.calcSquareRoot);
+    document
+      .getElementById("delete-btn")
+      .addEventListener("click", controller.deleteLastDigit);
+    document
+      .getElementById("percentage-btn")
+      .addEventListener("click", controller.calcPercentage);
+    document.addEventListener("keydown", function (e) {
+      if (
+        e.target &&
+        e.target instanceof HTMLButtonElement &&
+        e.key === "Enter"
+      ) {
+        e.preventDefault();
+      }
+
+      if (!isNaN(e.key) && !isNaN(parseFloat(e.key))) {
+        controller.setOperand(e.key);
+      } else if (e.key === "Enter") {
+        controller.calculate();
+      } else if (e.key === "Backspace") {
+        controller.deleteLastDigit();
+      } else if (e.ctrlKey && e.key === "c") {
+        controller.copyToClipboard();
+      } else if (e.key === "c") {
+        controller.clearAll();
+      } else if (e.key === "e") {
+        controller.clearEntry();
+      } else if (
+        e.key === "+" ||
+        e.key === "-" ||
+        e.key === "*" ||
+        e.key === "/"
+      ) {
+        controller.setOperator(e.key);
+      } else if (e.key === ".") {
+        controller.toFloat();
+      } else if (e.key === "r") {
+        controller.reverseSignOfNumber();
+      } else if (e.ctrlKey && e.key === "s") {
+        e.preventDefault();
+        controller.calcSquareRoot();
+      } else if (e.key === "s") {
+        controller.square();
+      } else if (e.key === "i") {
+        controller.findReciprocal();
+      } else if (e.key === "%") {
+        controller.calcPercentage();
+      }
+    });
+
+    this.setOperand1 = function (value) {
+      if (value == null) {
+        operand1.textContent = "";
+      } else {
+        operand1.textContent = value.toString();
+      }
+    };
+
+    this.setOperator = function (value, iconNames) {
+      operatorElem.className = iconNames;
+    };
+
+    this.setOperand2 = function (value) {
+      if (value == null) {
+        operand2Elem.textContent = "";
+      } else {
+        operand2Elem.textContent = value.toString();
+      }
+    };
+  }
+
   function Calculer() {
     let operand1 = new Operand();
     let operand2 = new Operand();
@@ -335,166 +518,6 @@
     }
     if (this.onValueChanged && this.onValueChanged instanceof Function) {
       this.onValueChanged(this._value);
-    }
-  };
-
-  window.onload = function () {
-    /* Cancel the watch feature of FontAwesome SVG Core Plugins in order to
-        avoid web font icon converted to SVG icon.
-        Please refer to: https://fontawesome.com/docs/apis/javascript/plugins#an-example
-        Search for "dom.watch()".
-        */
-    FontAwesome.dom.unwatch();
-    M.AutoInit();
-    const menu = M.Sidenav.getInstance(document.getElementById("menu"));
-    document
-      .getElementById("about-menu-item")
-      .addEventListener("click", function () {
-        menu.close();
-      });
-    document
-      .getElementById("settings-menu-item")
-      .addEventListener("click", function () {
-        menu.close();
-      });
-    let calculer = new Calculer();
-
-    {
-      let operand1 = document.getElementById("operand-1");
-      calculer.onOperand1ValueChanged = function (value) {
-        if (value == null) {
-          operand1.textContent = "";
-        } else {
-          operand1.textContent = value.toString();
-        }
-      };
-    }
-
-    {
-      let operatorElem = document.getElementById("operator");
-      calculer.onOperatorValueChanged = function (value, iconNames) {
-        operatorElem.className = iconNames;
-      };
-    }
-
-    {
-      let operand2Elem = document.getElementById("operand-2");
-      calculer.onOperand2ValueChanged = function (value) {
-        if (value == null) {
-          operand2Elem.textContent = "";
-        } else {
-          operand2Elem.textContent = value.toString();
-        }
-      };
-    }
-
-    let numBtns = document.querySelectorAll(".num-btn");
-    for (const numBtn of numBtns) {
-      numBtn.addEventListener("click", function (e) {
-        calculer.setOperand(this.textContent);
-      });
-    }
-
-    let operatorBtns = document.querySelectorAll(".operator-btn");
-    for (const operatorBtn of operatorBtns) {
-      operatorBtn.addEventListener("click", function () {
-        let op = this.getAttribute("data-op");
-        calculer.setOperator(op);
-      });
-    }
-
-    document
-      .getElementById("equal-btn")
-      .addEventListener("click", calculer.calculate.bind(calculer));
-    document
-      .getElementById("global-clear-btn")
-      .addEventListener("click", calculer.clearAll.bind(calculer));
-    document
-      .getElementById("dot-btn")
-      .addEventListener("click", calculer.toFloat.bind(calculer));
-    document
-      .getElementById("plus-minus-btn")
-      .addEventListener("click", calculer.reverseSignOfNumber.bind(calculer));
-    document
-      .getElementById("square-btn")
-      .addEventListener("click", calculer.square.bind(calculer));
-    document
-      .getElementById("reciprocal-btn")
-      .addEventListener("click", calculer.findReciprocal.bind(calculer));
-    document
-      .getElementById("clear-entry-btn")
-      .addEventListener("click", calculer.clearEntry.bind(calculer));
-    document
-      .getElementById("square-root-btn")
-      .addEventListener("click", calculer.calcSquareRoot.bind(calculer));
-    document
-      .getElementById("delete-btn")
-      .addEventListener("click", calculer.deleteLastDigit.bind(calculer));
-    document
-      .getElementById("percentage-btn")
-      .addEventListener("click", calculer.calcPercentage.bind(calculer));
-    document.addEventListener("keydown", function (e) {
-      if (
-        e.target &&
-        e.target instanceof HTMLButtonElement &&
-        e.key === "Enter"
-      ) {
-        e.preventDefault();
-      }
-
-      if (!isNaN(e.key) && !isNaN(parseFloat(e.key))) {
-        calculer.setOperand(e.key);
-      } else if (e.key === "Enter") {
-        calculer.calculate();
-      } else if (e.key === "Backspace") {
-        calculer.deleteLastDigit();
-      } else if (e.ctrlKey && e.key === "c") {
-        calculer.copyToClipboard();
-      } else if (e.key === "c") {
-        calculer.clearAll();
-      } else if (e.key === "e") {
-        calculer.clearEntry();
-      } else if (
-        e.key === "+" ||
-        e.key === "-" ||
-        e.key === "*" ||
-        e.key === "/"
-      ) {
-        calculer.setOperator(e.key);
-      } else if (e.key === ".") {
-        calculer.toFloat();
-      } else if (e.key === "r") {
-        calculer.reverseSignOfNumber();
-      } else if (e.ctrlKey && e.key === "s") {
-        e.preventDefault();
-        calculer.calcSquareRoot();
-      } else if (e.key === "s") {
-        calculer.square();
-      } else if (e.key === "i") {
-        calculer.findReciprocal();
-      } else if (e.key === "%") {
-        calculer.calcPercentage();
-      }
-    });
-
-    calculer.clearAll(0);
-
-    let settingsModal = document.getElementById("settings-modal");
-    let settingsNav = document.getElementById("settings-nav");
-    let options = settingsNav.querySelectorAll("li");
-    let settingsPages = settingsModal.querySelectorAll(".settings-page");
-    for (let i = 0; i < options.length; i++) {
-      options[i].addEventListener("click", function () {
-        for (let j = 0; j < settingsPages.length; j++) {
-          if (i === j) {
-            options[j].classList.add("active");
-            settingsPages[j].classList.remove("hide");
-          } else {
-            options[j].classList.remove("active");
-            settingsPages[j].classList.add("hide");
-          }
-        }
-      });
     }
   };
 })();
