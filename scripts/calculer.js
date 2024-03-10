@@ -1,6 +1,245 @@
 "use strict";
 
 (function () {
+  function Calculer() {
+    let operand1 = new Operand();
+    let operand2 = new Operand();
+    let operator = new Operator();
+
+    this.onOperand1ValueChanged = null;
+    this.onOperand2ValueChanged = null;
+    this.onOperatorValueChanged = null;
+
+    operand1.onValueChanged = (value) => {
+      if (this.onOperand1ValueChanged instanceof Function) {
+        this.onOperand1ValueChanged(value);
+      }
+    };
+
+    operand2.onValueChanged = (value) => {
+      if (this.onOperand2ValueChanged instanceof Function) {
+        this.onOperand2ValueChanged(value);
+      }
+    };
+
+    operator.onValueChanged = (value, iconNames) => {
+      if (this.onOperatorValueChanged instanceof Function) {
+        this.onOperatorValueChanged(value, iconNames);
+      }
+    };
+
+    this.chooseOperand = function () {
+      if (operand2.isSet) {
+        return operand2;
+      } else if (operand1.isSet) {
+        return operand1;
+      } else {
+        return null;
+      }
+    };
+
+    this.setOperand = function (value) {
+      let number = Number(value);
+
+      if (!operator.isSet) {
+        operand1.append(number);
+      } else {
+        operand2.append(number);
+      }
+    };
+
+    this.setOperator = function (op) {
+      if (operand1.isSet) {
+        if (operator.isSet && operand2.isSet) {
+          this.calculate();
+        }
+        operator.set(op);
+      }
+    };
+
+    this.toFloat = function () {
+      if (operator.isSet) {
+        operand2.toFloat();
+      } else {
+        operand1.toFloat();
+      }
+    };
+
+    this.calculate = function () {
+      if (operand1.isSet && operator.isSet && operand2.isSet) {
+        let result = 0;
+        let num1 = new bigDecimal(operand1.value);
+        let num2 = new bigDecimal(operand2.value);
+        if (operand1.value.startsWith("-")) {
+          num1 = new bigDecimal(operand1.value.substr(1));
+          num1 = num1.multiply(new bigDecimal(-1));
+        }
+        if (operand2.value.startsWith("-")) {
+          num2 = new bigDecimal(operand2.value.substr(1));
+          num2 = num2.multiply(new bigDecimal(-1));
+        }
+        switch (operator.value) {
+          case "+":
+            result = num1.add(num2);
+            break;
+          case "-":
+            result = num1.subtract(num2);
+            break;
+          case "*":
+            result = num1.multiply(num2);
+            break;
+          case "/":
+            result = num1.divide(num2);
+            break;
+          default:
+            throw `Unsupported operator ${operator.value}.`;
+        }
+        result = Number(result.getValue());
+        operand1.set(result);
+        operator.unset();
+        operand2.unset();
+      }
+    };
+
+    this.clearAll = function () {
+      operand1.set(0);
+      operator.unset();
+      operand2.unset();
+    };
+
+    this.clearEntry = function () {
+      let operand = this.chooseOperand();
+      if (!operand) {
+        return;
+      }
+
+      operand.set(0);
+    };
+
+    this.deleteLastDigit = function () {
+      if (operand2.isSet) {
+        if (operand2.value.length === 1) {
+          operand2.unset();
+        } else {
+          operand2.set(operand2.value.substr(0, operand2.value.length - 1));
+          if (operand2.value === "+" || operand2.value === "-") {
+            operand2.unset();
+          }
+        }
+      } else if (operator.isSet) {
+        operator.unset();
+      } else if (operand1.isSet) {
+        if (operand1.value.length === 1) {
+          operand1.set(0);
+        } else {
+          operand1.set(operand1.value.substr(0, operand1.value.length - 1));
+          if (operand1.value === "+" || operand1.value === "-") {
+            operand1.set(0);
+          }
+        }
+      } else {
+        // No digit to delete.
+      }
+    };
+
+    this.reverseSignOfNumber = function () {
+      let operand = this.chooseOperand();
+      if (operand && Number(operand.value).toString() !== "Infinity") {
+        let value = (-Number(operand.value)).toString();
+        operand.set(value);
+      }
+    };
+
+    this.square = function () {
+      let operand = this.chooseOperand();
+      if (!operand) {
+        return;
+      }
+
+      let bigDec = new bigDecimal(operand.value);
+      bigDec = bigDec.multiply(bigDec);
+      let numStr = bigDec.getValue();
+      let number = Number(numStr);
+      operand.set(number);
+    };
+
+    this.findReciprocal = function () {
+      let operand = this.chooseOperand();
+      if (!operand) {
+        return;
+      }
+
+      let value = 1 / Number(operand.value);
+      operand.set(value);
+    };
+
+    this.calcSquareRoot = function () {
+      let operand = this.chooseOperand();
+      if (!operand) {
+        return;
+      }
+
+      let value = Math.sqrt(Number(operand.value));
+      operand.set(value);
+    };
+
+    this.calcPercentage = function () {
+      let operand = this.chooseOperand();
+      if (!operand) {
+        return;
+      }
+
+      let numStr;
+      if (operand.value.includes("e-")) {
+        let tokens = operand.value.split("e-");
+        tokens[1] = (Number(tokens[1]) + 2).toString();
+        numStr = tokens[0] + "e-" + tokens[1];
+        if (Number(numStr).toString() === "0") {
+          operand.set(0);
+        } else {
+          operand.set(numStr);
+        }
+      } else {
+        let bidDec = new bigDecimal(operand.value);
+        bidDec = bidDec.multiply(new bigDecimal("0.01"));
+        let numStr = bidDec.getValue();
+        let number = Number(numStr);
+        operand.set(number);
+      }
+    };
+
+    this.copyToClipboard = function () {
+      let str = "";
+      if (operand1.isSet) {
+        str += operand1.value;
+      }
+      if (operator.isSet) {
+        str += operator.value;
+      }
+      if (operand2.isSet) {
+        let operand2Val = operand2.value;
+        if (Number(operand2Val) < 0) {
+          operand2Val = "(" + operand2Val + ")";
+        }
+        str += operand2Val;
+      }
+      navigator.clipboard.writeText(str).then(
+        function () {
+          M.toast({
+            html: "Copied to clipboard!",
+            classes: "white black-text",
+          });
+        },
+        function (err) {
+          M.toast({
+            html: `Fail to copy: ${err}`,
+            classes: "red darken-1 white-text",
+          });
+        }
+      );
+    };
+  }
+
   function Token() {
     this._value = undefined;
     this.onValueChanged = undefined;
@@ -69,7 +308,6 @@
   }
 
   Operand.prototype = Object.create(Token.prototype);
-
   Operand.constructor = Operand;
 
   Operand.prototype.toFloat = function () {
@@ -119,252 +357,41 @@
       .addEventListener("click", function () {
         menu.close();
       });
+    let calculer = new Calculer();
 
-    let operand1 = new Operand();
-    (function () {
-      let elem = document.getElementById("operand-1");
-      operand1.onValueChanged = function (value) {
+    {
+      let operand1 = document.getElementById("operand-1");
+      calculer.onOperand1ValueChanged = function (value) {
         if (value == null) {
-          elem.textContent = "";
+          operand1.textContent = "";
         } else {
-          elem.textContent = value.toString();
+          operand1.textContent = value.toString();
         }
       };
-    })();
-    let operator = new Operator();
-    (function () {
-      let elem = document.getElementById("operator");
-      operator.onValueChanged = function (value, iconNames) {
-        elem.className = iconNames;
+    }
+
+    {
+      let operatorElem = document.getElementById("operator");
+      calculer.onOperatorValueChanged = function (value, iconNames) {
+        operatorElem.className = iconNames;
       };
-    })();
-    let operand2 = new Operand();
-    (function () {
-      let elem = document.getElementById("operand-2");
-      operand2.onValueChanged = function (value) {
+    }
+
+    {
+      let operand2Elem = document.getElementById("operand-2");
+      calculer.onOperand2ValueChanged = function (value) {
         if (value == null) {
-          elem.textContent = "";
+          operand2Elem.textContent = "";
         } else {
-          elem.textContent = value.toString();
+          operand2Elem.textContent = value.toString();
         }
       };
-    })();
-
-    function chooseOperand() {
-      if (operand2.isSet) {
-        return operand2;
-      } else if (operand1.isSet) {
-        return operand1;
-      } else {
-        return null;
-      }
-    }
-
-    function setOperand(value) {
-      let number = Number(value);
-
-      if (!operator.isSet) {
-        operand1.append(number);
-      } else {
-        operand2.append(number);
-      }
-    }
-
-    function setOperator(op) {
-      if (operand1.isSet) {
-        if (operator.isSet && operand2.isSet) {
-          calculate();
-        }
-        operator.set(op);
-      }
-    }
-
-    function toFloat() {
-      if (operator.isSet) {
-        operand2.toFloat();
-      } else {
-        operand1.toFloat();
-      }
-    }
-
-    function calculate() {
-      if (operand1.isSet && operator.isSet && operand2.isSet) {
-        let result = 0;
-        let num1 = new bigDecimal(operand1.value);
-        let num2 = new bigDecimal(operand2.value);
-        if (operand1.value.startsWith("-")) {
-          num1 = new bigDecimal(operand1.value.substr(1));
-          num1 = num1.multiply(new bigDecimal(-1));
-        }
-        if (operand2.value.startsWith("-")) {
-          num2 = new bigDecimal(operand2.value.substr(1));
-          num2 = num2.multiply(new bigDecimal(-1));
-        }
-        switch (operator.value) {
-          case "+":
-            result = num1.add(num2);
-            break;
-          case "-":
-            result = num1.subtract(num2);
-            break;
-          case "*":
-            result = num1.multiply(num2);
-            break;
-          case "/":
-            result = num1.divide(num2);
-            break;
-          default:
-            throw `Unsupported operator ${operator.value}.`;
-        }
-        result = Number(result.getValue());
-        operand1.set(result);
-        operator.unset();
-        operand2.unset();
-      }
-    }
-
-    function clearAll() {
-      operand1.set(0);
-      operator.unset();
-      operand2.unset();
-    }
-
-    function clearEntry() {
-      let operand = chooseOperand();
-      if (!operand) {
-        return;
-      }
-
-      operand.set(0);
-    }
-
-    function deleteLastDigit() {
-      if (operand2.isSet) {
-        if (operand2.value.length === 1) {
-          operand2.unset();
-        } else {
-          operand2.set(operand2.value.substr(0, operand2.value.length - 1));
-          if (operand2.value === "+" || operand2.value === "-") {
-            operand2.unset();
-          }
-        }
-      } else if (operator.isSet) {
-        operator.unset();
-      } else if (operand1.isSet) {
-        if (operand1.value.length === 1) {
-          operand1.set(0);
-        } else {
-          operand1.set(operand1.value.substr(0, operand1.value.length - 1));
-          if (operand1.value === "+" || operand1.value === "-") {
-            operand1.set(0);
-          }
-        }
-      } else {
-        // No digit to delete.
-      }
-    }
-
-    function reverseSignOfNumber() {
-      let operand = chooseOperand();
-      if (operand && Number(operand.value).toString() !== "Infinity") {
-        let value = (-Number(operand.value)).toString();
-        operand.set(value);
-      }
-    }
-
-    function square() {
-      let operand = chooseOperand();
-      if (!operand) {
-        return;
-      }
-
-      let bigDec = new bigDecimal(operand.value);
-      bigDec = bigDec.multiply(bigDec);
-      let numStr = bigDec.getValue();
-      let number = Number(numStr);
-      operand.set(number);
-    }
-
-    function findReciprocal() {
-      let operand = chooseOperand();
-      if (!operand) {
-        return;
-      }
-
-      let value = 1 / Number(operand.value);
-      operand.set(value);
-    }
-
-    function calcSquareRoot() {
-      let operand = chooseOperand();
-      if (!operand) {
-        return;
-      }
-
-      let value = Math.sqrt(Number(operand.value));
-      operand.set(value);
-    }
-
-    function calcPercentage() {
-      let operand = chooseOperand();
-      if (!operand) {
-        return;
-      }
-
-      let numStr;
-      if (operand.value.includes("e-")) {
-        let tokens = operand.value.split("e-");
-        tokens[1] = (Number(tokens[1]) + 2).toString();
-        numStr = tokens[0] + "e-" + tokens[1];
-        if (Number(numStr).toString() === "0") {
-          operand.set(0);
-        } else {
-          operand.set(numStr);
-        }
-      } else {
-        let bidDec = new bigDecimal(operand.value);
-        bidDec = bidDec.multiply(new bigDecimal("0.01"));
-        let numStr = bidDec.getValue();
-        let number = Number(numStr);
-        operand.set(number);
-      }
-    }
-
-    function copyToClipboard() {
-      let str = "";
-      if (operand1.isSet) {
-        str += operand1.value;
-      }
-      if (operator.isSet) {
-        str += operator.value;
-      }
-      if (operand2.isSet) {
-        let operand2Val = operand2.value;
-        if (Number(operand2Val) < 0) {
-          operand2Val = "(" + operand2Val + ")";
-        }
-        str += operand2Val;
-      }
-      navigator.clipboard.writeText(str).then(
-        function () {
-          M.toast({
-            html: "Copied to clipboard!",
-            classes: "white black-text",
-          });
-        },
-        function (err) {
-          M.toast({
-            html: `Fail to copy: ${err}`,
-            classes: "red darken-1 white-text",
-          });
-        }
-      );
     }
 
     let numBtns = document.querySelectorAll(".num-btn");
     for (const numBtn of numBtns) {
       numBtn.addEventListener("click", function (e) {
-        setOperand(this.textContent);
+        calculer.setOperand(this.textContent);
       });
     }
 
@@ -372,40 +399,40 @@
     for (const operatorBtn of operatorBtns) {
       operatorBtn.addEventListener("click", function () {
         let op = this.getAttribute("data-op");
-        setOperator(op);
+        calculer.setOperator(op);
       });
     }
 
     document
       .getElementById("equal-btn")
-      .addEventListener("click", calculate.bind());
+      .addEventListener("click", calculer.calculate.bind(calculer));
     document
       .getElementById("global-clear-btn")
-      .addEventListener("click", clearAll.bind());
+      .addEventListener("click", calculer.clearAll.bind(calculer));
     document
       .getElementById("dot-btn")
-      .addEventListener("click", toFloat.bind());
+      .addEventListener("click", calculer.toFloat.bind(calculer));
     document
       .getElementById("plus-minus-btn")
-      .addEventListener("click", reverseSignOfNumber.bind());
+      .addEventListener("click", calculer.reverseSignOfNumber.bind(calculer));
     document
       .getElementById("square-btn")
-      .addEventListener("click", square.bind());
+      .addEventListener("click", calculer.square.bind(calculer));
     document
       .getElementById("reciprocal-btn")
-      .addEventListener("click", findReciprocal.bind());
+      .addEventListener("click", calculer.findReciprocal.bind(calculer));
     document
       .getElementById("clear-entry-btn")
-      .addEventListener("click", clearEntry.bind());
+      .addEventListener("click", calculer.clearEntry.bind(calculer));
     document
       .getElementById("square-root-btn")
-      .addEventListener("click", calcSquareRoot.bind());
+      .addEventListener("click", calculer.calcSquareRoot.bind(calculer));
     document
       .getElementById("delete-btn")
-      .addEventListener("click", deleteLastDigit.bind());
+      .addEventListener("click", calculer.deleteLastDigit.bind(calculer));
     document
       .getElementById("percentage-btn")
-      .addEventListener("click", calcPercentage.bind());
+      .addEventListener("click", calculer.calcPercentage.bind(calculer));
     document.addEventListener("keydown", function (e) {
       if (
         e.target &&
@@ -416,41 +443,41 @@
       }
 
       if (!isNaN(e.key) && !isNaN(parseFloat(e.key))) {
-        setOperand(e.key);
+        calculer.setOperand(e.key);
       } else if (e.key === "Enter") {
-        calculate();
+        calculer.calculate();
       } else if (e.key === "Backspace") {
-        deleteLastDigit();
+        calculer.deleteLastDigit();
       } else if (e.ctrlKey && e.key === "c") {
-        copyToClipboard();
+        calculer.copyToClipboard();
       } else if (e.key === "c") {
-        clearAll();
+        calculer.clearAll();
       } else if (e.key === "e") {
-        clearEntry();
+        calculer.clearEntry();
       } else if (
         e.key === "+" ||
         e.key === "-" ||
         e.key === "*" ||
         e.key === "/"
       ) {
-        setOperator(e.key);
+        calculer.setOperator(e.key);
       } else if (e.key === ".") {
-        toFloat();
+        calculer.toFloat();
       } else if (e.key === "r") {
-        reverseSignOfNumber();
+        calculer.reverseSignOfNumber();
       } else if (e.ctrlKey && e.key === "s") {
         e.preventDefault();
-        calcSquareRoot();
+        calculer.calcSquareRoot();
       } else if (e.key === "s") {
-        square();
+        calculer.square();
       } else if (e.key === "i") {
-        findReciprocal();
+        calculer.findReciprocal();
       } else if (e.key === "%") {
-        calcPercentage();
+        calculer.calcPercentage();
       }
     });
 
-    operand1.set(0);
+    calculer.clearAll(0);
 
     let settingsModal = document.getElementById("settings-modal");
     let settingsNav = document.getElementById("settings-nav");
