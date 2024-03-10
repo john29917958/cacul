@@ -34,11 +34,10 @@
   };
 
   function Operator() {
-    Token.apply(this);
+    Token.call(this);
   }
 
   Operator.prototype = Object.create(Token.prototype);
-
   Operator.constructor = Operator;
 
   Operator.prototype.set = function (value) {
@@ -66,7 +65,7 @@
   };
 
   function Operand() {
-    Token.apply(this);
+    Token.call(this);
   }
 
   Operand.prototype = Object.create(Token.prototype);
